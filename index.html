@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculate</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+    <style>
+        .result-container {
+            height: 286px;
+        }
+    </style>
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-6 col-sm-12">
+                <div class="input-group">
+                    <input type="number" class="form-control" placeholder="Input total uang.." id="total" min="0">
+                    <span class="input-group-text" id="addon-wrapping">Total</span>
+                </div>
+                <div class="input-group mt-3">
+                    <input type="number" class="form-control" placeholder="Input lembar.." id="lembar20" min="0">
+                    <span class="input-group-text" id="addon-wrapping">20 Ribu</span>
+                </div>
+                <div class="input-group mt-3">
+                    <input type="number" class="form-control" placeholder="Input lembar.." id="lembar50" min="0">
+                    <span class="input-group-text" id="addon-wrapping" id="lembar20">50 Ribu</span>
+                </div>
+                <div class="input-group mt-3">
+                    <input type="number" class="form-control" placeholder="Input lembar.." id="lembar100" min="0">
+                    <span class="input-group-text" id="addon-wrapping">100 Ribu</span>
+                </div>
+                <button type="button" class="btn btn-success mt-5 w-100" id="btn-hitung">Hitung</button>
+            </div>
+            <div class="col-md-6 col-sm-12 mt-5 mt-sm-0">
+                <div class="rounded bg-info p-3 mb-2 d-flex justify-content-center align-items-center result-container">
+                    <div id="resultSection">
+                        <p class="h4 text-light" id="procPecahan100Cont">
+                            <span id="procPecahan100"></span>
+                            Pecahan 100 rb
+                        </p>
+                        <p class="h4 text-light mt-4" id="procPecahan50Cont">
+                            <span id="procPecahan50"></span>
+                            Pecahan 50 rb
+                        </p>
+                        <p class="h4 text-light mt-4" id="procPecahan20Cont">
+                            <span id="procPecahan20"></span>
+                            Pecahan 20 rb
+                        </p>
+                        <p class="h4 text-light mt-4">
+                            Sisa 
+                            <span id="totalSisa"></span>
+                        </p>
+                    </div>
+                    <div id="initSection">
+                        <p class="h4 text-light">
+                            Hitung Pecahan Uang!
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<script src="calc.js"></script>
+<script>
+    $(document).ready(function() {
+        document.getElementById("resultSection").style.display = "none"
+    });
+
+    $("#btn-hitung").click(function() {
+        if(document.getElementById("total").value <= 0 || document.getElementById("lembar20").value <= 0 || document.getElementById("lembar50").value <= 0 || document.getElementById("lembar100").value <= 0) return alert("Data uang tidak boleh 0 atau kosong!")
+
+        document.getElementById("procPecahan20Cont").style.display = "block"
+        document.getElementById("procPecahan50Cont").style.display = "block"
+        document.getElementById("procPecahan100Cont").style.display = "block"
+
+        const total = Number(document.getElementById("total").value)
+        const lembar20 = Number(document.getElementById("lembar20").value)
+        const lembar50 = Number(document.getElementById("lembar50").value)
+        const lembar100 = Number(document.getElementById("lembar100").value)
+        const data = count(total, lembar20, lembar50, lembar100)
+
+        document.getElementById("procPecahan20").innerHTML = data.procPecahan20
+        document.getElementById("procPecahan50").innerHTML = data.procPecahan50
+        document.getElementById("procPecahan100").innerHTML = data.procPecahan100
+        
+        if(data.procPecahan20 <= 0) document.getElementById("procPecahan20Cont").style.display = "none"
+        if(data.procPecahan50 <= 0) document.getElementById("procPecahan50Cont").style.display = "none"
+        if(data.procPecahan100 <= 0) document.getElementById("procPecahan100Cont").style.display = "none"
+        document.getElementById("totalSisa").innerHTML = data.totalSisa
+
+        document.getElementById("resultSection").style.display = "block"
+        document.getElementById("initSection").style.display = "none"
+    });
+</script>   
+</body>
+</html>
